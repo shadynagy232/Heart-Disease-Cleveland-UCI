@@ -1,4 +1,4 @@
-# ds1
+# A project demo (Intro and not completed)
 
 ## Tools used in this project
 * [Poetry](https://towardsdatascience.com/how-to-effortlessly-publish-your-python-package-to-pypi-using-poetry-44b305362f9f): Dependency management - [article](https://towardsdatascience.com/how-to-effortlessly-publish-your-python-package-to-pypi-using-poetry-44b305362f9f)
@@ -97,7 +97,7 @@ To auto-generate API document for your project, run:
 make docs
 ```
 
-Heart Disease Cleveland UCI
+# Heart Disease Cleveland UCI
 
 Content
 There are 13 attributes
@@ -142,5 +142,8 @@ University Hospital, Basel, Switzerland: Matthias Pfisterer, M.D.
 V.A. Medical Center, Long Beach and Cleveland Clinic Foundation: Robert Detrano, M.D., Ph.D.
 Donor: David W. Aha (aha '@' ics.uci.edu) (714) 856-8779
 
-Inspiration
+# Inspiration
 With the attributes described above, can you predict if a patient has heart disease?
+
+#Models 
+Supervised Machine learning problems, notebooks for different models and processes data with some EDA.
