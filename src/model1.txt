@@ -1,0 +1,64 @@
+import os
+from typing import Tuple
+import hydra
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from omegaconf import DictConfig
+from sklearn.decomposition import PCA
+from sklearn import svm 
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+
+
+
+def get_pca_model(data: pd.DataFrame) -> PCA:
+
+    pca = PCA(n_components=3)
+    pca.fit(data)
+    return pca
+
+
+def reduce_dimension(df: pd.DataFrame, pca: PCA) -> pd.DataFrame:
+    return pd.DataFrame(pca.transform(df), columns=["col1", "col2", "col3"])
+
+
+def get_3d_projection(pca_df: pd.DataFrame) -> dict:
+    """A 3D Projection Of Data In The Reduced Dimensionality Space"""
+    return {"x": pca_df["col1"], "y": pca_df["col2"], "z": pca_df["col3"]}
+
+
+
+        
+def support_vector_machines(data: pd.DataFrame):
+       X=df.iloc[:,0:-1]
+       y=df.iloc[:,-1]
+       X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+       lin_clf = svm.LinearSVC()
+       model=lin_clf.fit(X_train,y_train)
+       return model.predict(X_test), model.score(X_test,y_test)
+       
+def logistic_regression(data: pd.DataFrame):   
+       lin_clf = LogisticRegression()
+       X=data.iloc[:,0:-1]
+       y=data.iloc[:,-1]
+       X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+       model=lin_clf.fit(X_train,y_train)
+       return model.predict(X_test), model.score(X_test,y_test)
+
+
+@hydra.main(config_path="../config", config_name="main")
+def segment(config: DictConfig) -> None:
+
+    data = pd.read_csv(config.intermediate.path)
+    pca = get_pca_model(data)
+    pca_df = reduce_dimension(data, pca)
+
+    projections = get_3d_projection(pca_df)
+
+    preds,test_score_logistic=logistic_regression(data)
+    preds,test_score_svm=support_vector_machines(data) 
+
+
+if __name__ == "__main__":
+    segment()
